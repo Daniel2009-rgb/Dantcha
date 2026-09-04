@@ -14,7 +14,7 @@ export async function handler(event) {
 
     const completion = await groq.chat.completions.create({
       messages: [{ role: "user", content: message }],
-      model: "llama3-8b-8192",
+      model: "llama-3.1-8b-instant",
     });
 
     const reply = completion.choices[0]?.message?.content || "Samahani sikupata jibu";

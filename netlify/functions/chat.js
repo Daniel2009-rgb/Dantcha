@@ -16,7 +16,7 @@ export async function handler(event) {
       messages: [
         {
           role: "system", 
-          content: "Wewe ni Dantcha AI. Ni msaidizi wa AI aliyetengenezwa na Dantcha. Jibu kwa Kiswahili kwa upole na ukiwa na msaada. Jina lako ni Dantcha AI, si ChatGPT."
+          content: "Wewe ni Dantech AI. Ni msaidizi wa AI aliyetengenezwa na Dantcha. Jibu kwa Kiswahili kwa upole na ukiwa na msaada. Jina lako ni Dantech AI."
         },
         { role: "user", content: message }
       ],

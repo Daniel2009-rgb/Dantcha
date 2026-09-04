@@ -1,14 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dantcha AI</title>
+  <title>Dantcha AI Chat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {font-family: sans-serif; background:#111; color:white; padding:20px; max-width:600px; margin:auto}
+    #chat {height:400px; overflow-y:auto; border:1px solid #444; padding:10px; margin-bottom:10px; border-radius:10px}
+    .msg {margin:10px 0; padding:10px; border-radius:10px}
+    .user {background:#1e90ff; text-align:right}
+    .ai {background:#333}
+    input {width:75%; padding:10px; border:none; border-radius:5px}
+    button {width:20%; padding:10px; border:none; background:#1e90ff; color:white; border-radius:5px}
+  </style>
 </head>
-<body style="text-align:center; padding:50px; font-family:sans-serif">
-  <h1>🤖 Dantcha AI Iko Online</h1>
-  <p>Function yako inafanya kazi</p>
-  <p>Test API: <a href="/.netlify/functions/chat">/.netlify/functions/chat</a></p>
-  <hr>
-  <p><b>Kumbuka:</b> Ili uchate lazima utumie POST. Tumia index ya pili niliyokupa.</p>
+<body>
+  <h1>🤖 Dantcha AI</h1>
+  <div id="chat"></div>
+  <input id="msg" placeholder="Uliza chochote...">
+  <button onclick="send()">Tuma</button>
+
+<script>
+const chat = document.getElementById('chat');
+function addMsg(text, who){
+  chat.innerHTML += `<div class="msg ${who}">${text}</div>`;
+  chat.scrollTop = chat.scrollHeight;
+}
+async function send(){
+  let input = document.getElementById('msg');
+  let text = input.value;
+  if(!text) return;
+  addMsg(text, 'user');
+  input.value = '';
+  
+  let res = await fetch('/.netlify/functions/chat', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({message: text})
+  })
+  let data = await res.json()
+  addMsg(data.reply, 'ai')
+}
+</script>
 </body>
-</html>
+    </html>

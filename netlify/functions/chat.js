@@ -13,7 +13,13 @@ export async function handler(event) {
     const { message } = JSON.parse(event.body);
 
     const completion = await groq.chat.completions.create({
-      messages: [{ role: "user", content: message }],
+      messages: [
+        {
+          role: "system", 
+          content: "Wewe ni Dantcha AI. Ni msaidizi wa AI aliyetengenezwa na Dantcha. Jibu kwa Kiswahili kwa upole na ukiwa na msaada. Jina lako ni Dantcha AI, si ChatGPT."
+        },
+        { role: "user", content: message }
+      ],
       model: "openai/gpt-oss-20b",
     });
 
@@ -22,7 +28,7 @@ export async function handler(event) {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ reply: reply }), // Hapa ndio tulikuwa tunakosea
+      body: JSON.stringify({ reply: reply }),
     };
   } catch (error) {
     return {

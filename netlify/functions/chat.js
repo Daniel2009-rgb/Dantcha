@@ -1,29 +1,33 @@
 import Groq from "groq-sdk";
 
-export async function handler(event) {
-  try {
-    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-    const body = JSON.parse(event.body);
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
-    const chatCompletion = await groq.chat.completions.create({
-      messages: [
-        { role: "system", content: "Wewe ni Dantchai AI. Msaidizi mwelewa. Jibu kwa Kiswahili fupi na kwa pointi." },
-        { role: "user", content: body.message }
-      ],
-      model: "llama-3.1-8b-instant", // <-- HUU NDIO MPYA WA KAZI SASA
+export async function handler(event) {
+  if (event.httpMethod!== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
+
+  try {
+    const { message } = JSON.parse(event.body);
+
+    const completion = await groq.chat.completions.create({
+      messages: [{ role: "user", content: message }],
+      model: "llama3-8b-8192",
     });
+
+    const reply = completion.choices[0]?.message?.content || "Samahani sikupata jibu";
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify({ reply: chatCompletion.choices[0].message.content }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reply: reply }), // Hapa ndio tulikuwa tunakosea
     };
   } catch (error) {
-    console.error("ERROR:", error);
     return {
       statusCode: 500,
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ reply: "Kuna error: " + error.message }),
     };
   }
-}
+      }

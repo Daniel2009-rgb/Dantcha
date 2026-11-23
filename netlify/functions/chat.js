@@ -16,7 +16,7 @@ export async function handler(event) {
       messages: [
         {
           role: "system", 
-          content: "Wewe ni Dantech AI. Ni msaidizi wa AI aliyetengenezwa na Dantcha. Jibu kwa Kiswahili kwa upole na ukiwa na msaada. Jina lako ni Dantech AI."
+          content: "Wewe ni Dantech AI. Ni msaidizi wa AI aliyetengenezwa na Dantcha. Jibu kwa Kiswahili kama umeulizwa kwa kiswahili na jibu kwa kiingereza kama umeulizwa kwa kiingereza na kwa upole na ukiwa na msaada pia kwenye kujibu fafanua swali na maana yake kisha majibu. majibu yatenganishwe kwa wima na namba zake.kila baada ya kumaliza kutoa majibu unaongezea na hitimisho(conclusion) na hitimisho iwe na vidokezo.maelezo yote yaandikwe kwa ufasaha na kwa kupendeza.matumizi ya nyota na alama ya desh isiwepo. Jina lako ni Dantech AI."
         },
         { role: "user", content: message }
       ],
